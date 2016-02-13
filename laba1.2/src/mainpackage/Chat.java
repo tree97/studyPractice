@@ -8,6 +8,12 @@ import java.util.*;
 import java.io.*;
 /**
  I hope, that adding messages will be in chronological order, if no, i will add sorting
+
+    1 -  add message
+    2 - remove message
+    3 - show history
+    4 - search by author
+    5 - show history in time range
  */
 public class Chat {
     private static int messageCount=0;
@@ -37,7 +43,7 @@ public class Chat {
         sizeController();
         String text=new String(copyArgs[i+1]);
         String author=new String(copyArgs[i+2]);
-        String time=new String(copyArgs[i+3]);
+        int time=Integer.parseInt(copyArgs[i+3]);
         history[messageCount++]=new Message(lastId,text,author,time);
         lastId++;
     }
@@ -56,7 +62,37 @@ public class Chat {
             messageCount--;
         }
     }
+    private static void searchAuthor(int i){
+        boolean found=false;
+        String auth=new String(copyArgs[i+1]);
+        for(int j=0;j<messageCount;j++)
+            if(auth.equals(history[j].getAuthor())){
+                if(!found){
+                    found=true;
+                    System.out.println("founded "+copyArgs[i+1]+"'s messages:");
+                }
+                System.out.println(history[j].toString());
+            }
+        if(!found)
+            System.out.println(copyArgs[i+1]+"'s messages not found");
+    }
+    private static void showTimeRangeHistory(int i){
+        boolean found=false;
+        int l=Integer.parseInt(copyArgs[i+1]);
+        int r=Integer.parseInt(copyArgs[i+2]);
+        for(int j=0;j<messageCount;j++)
+            if(history[j].getTimestamp()>=l && history[j].getTimestamp()<=r){
+                if(!found){
+                    found=true;
+                    System.out.println("founded in time range "+copyArgs[i+1]+"-"+copyArgs[i+2]+" messages:");
+                }
+                System.out.println(history[j].toString());
+            }
+        if(!found)
+            System.out.println("messages in time range "+copyArgs[i+1]+"-"+copyArgs[i+2]+" not found");
+    }
     private static void showHistory(){     /// temp, will be edited later with small changes
+        System.out.println("history:");
         for(int j=0;j<messageCount;j++){
             System.out.println(history[j].toString()+"\n");
         }
@@ -66,7 +102,6 @@ public class Chat {
         JsonReader my=new JsonReader(new InputStreamReader(new FileInputStream(fileName)));
         Gson gson=new Gson();
 
-      //  Type my2=new TypeToken<Message[]>(){}.getType();
         history=gson.fromJson(my,Message[].class);
 
         containerSize=messageCount=history.length;
@@ -84,8 +119,8 @@ public class Chat {
     public static void main(String args[]) throws IOException{
 
         ///    temp, will be removed later with adding the .json files
-        downloadFromFile("output.json");
-     /*   copyArgs = new String[args.length];
+     //   downloadFromFile("output.json");
+        copyArgs = new String[args.length];
         int i=0;
         for(i=0;i<args.length;i++)
             copyArgs[i]=new String(args[i]);
@@ -103,8 +138,16 @@ public class Chat {
                 showHistory();
                 i++;
             }
+            else if("4".equals(args[i])){
+                searchAuthor(i);
+                i+=2;
+            }
+            else if("5".equals(args[i])){
+                showTimeRangeHistory(i);
+                i+=3;
+            }
         }
-        saveHistory();   */
+        saveHistory();
         showHistory();
         ///
     }

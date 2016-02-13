@@ -4,26 +4,26 @@ package mainpackage;
  */
 public class Message {
     private int id;
-    private String time;
+    private int timestamp;
     private String text;
     private String author;
     public Message(Message x){
         id=x.id;
         text=x.text;
         author=x.author;
-        time=x.time;
+        timestamp=x.timestamp;
     }
-    public Message(int id2,String text2,String author2,String time2){
+    public Message(int id2,String text2,String author2,int time2){
         id=id2;
         text=text2;
         author=author2;
-        time=time2;
+        timestamp=time2;
     }
     public int getId(){
         return id;
     }
-    public String getTime(){
-        return time;
+    public int getTimestamp(){
+        return timestamp;
     }
     public String getText(){
         return text;
@@ -43,7 +43,7 @@ public class Message {
         res.append(author);
         res.append('\n');
         res.append("date and time: ");
-        res.append(time);
+        res.append(timestamp);
         return res.toString();
     }
 }
