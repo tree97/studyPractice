@@ -1,5 +1,10 @@
 package mainpackage;
 import com.google.gson.*;
+import com.google.gson.reflect.*;
+import com.google.gson.stream.JsonReader;
+
+import java.lang.reflect.Type;
+import java.util.*;
 import java.io.*;
 /**
  I hope, that adding messages will be in chronological order, if no, i will add sorting
@@ -16,10 +21,16 @@ public class Chat {
             buf=new Message[containerSize];
             for(int j=0;j<containerSize;j++)
                 buf[j]=new Message(history[j]);
-            history=new Message[containerSize*2];
+            if(containerSize<10)
+                history= new Message[containerSize+10];
+            else
+                history = new Message[containerSize * 2];
             for(int j=0;j<containerSize;j++)
                 history[j]=new Message(buf[j]);
-            containerSize*=2;
+            if(containerSize<10)
+                containerSize+=10;
+            else
+                containerSize*=2;
         }
     }
     private static void addMessage(int i){
@@ -52,24 +63,22 @@ public class Chat {
     }
     private static void downloadFromFile(String fileName) throws IOException{     /// temp, will be modified after changing ID
         messageCount=0;
-        Reader reader=new InputStreamReader(Chat.class.getResourceAsStream(fileName),"UTF-8");
-        Gson gson=new GsonBuilder().create();
-        Integer temp =new Integer(gson.fromJson(reader,Integer.class));
-        int count=temp.intValue();
-        for(messageCount=0;messageCount<count;messageCount++){
-            sizeController();
-            history[messageCount]=new Message(gson.fromJson(reader,Message.class));
-            lastId=history[messageCount].getId();
-        }
-        reader.close();
+        JsonReader my=new JsonReader(new InputStreamReader(new FileInputStream(fileName)));
+        Gson gson=new Gson();
+
+      //  Type my2=new TypeToken<Message[]>(){}.getType();
+        history=gson.fromJson(my,Message[].class);
+
+        containerSize=messageCount=history.length;
+        //reader.close();
     }
     private static void saveHistory()throws IOException{
         Writer saving=new OutputStreamWriter(new FileOutputStream("output.json"),"UTF-8");
-        Gson gson=new GsonBuilder().create();
-        gson.toJson(new Integer(messageCount),saving);
-        for(int i=0;i<messageCount;i++) {
-            gson.toJson(history[i],saving);
-        }
+        Gson gson=new Gson();
+        Message tempMessage[]=new Message[messageCount];
+        for(int i=0;i<messageCount;i++)
+            tempMessage[i]=history[i];
+        gson.toJson(tempMessage,saving);
         saving.close();
     }
     public static void main(String args[]) throws IOException{
@@ -95,7 +104,7 @@ public class Chat {
                 i++;
             }
         }
-        saveHistory(); */
+        saveHistory();   */
         showHistory();
         ///
     }
