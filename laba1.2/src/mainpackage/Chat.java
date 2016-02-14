@@ -1,9 +1,7 @@
 package mainpackage;
 import com.google.gson.*;
-import com.google.gson.reflect.*;
 import com.google.gson.stream.JsonReader;
 
-import java.lang.reflect.Type;
 import java.util.*;
 import java.io.*;
 /**
@@ -14,13 +12,14 @@ import java.io.*;
     3 - show history
     4 - search by author
     5 - show history in time range
+    6 - find message by lexem
+    7 - search by regular expression
  */
 public class Chat {
     private static int messageCount=0;
     private static int containerSize=10;
     private static int lastId=0;
     private static Message history[]=new Message[containerSize];
-    private static String copyArgs[];    ///  temp, may be will be removed later
     private static void sizeController(){
         Message buf[];
         if(messageCount==containerSize){
@@ -39,19 +38,15 @@ public class Chat {
                 containerSize*=2;
         }
     }
-    private static void addMessage(int i){
+    private static void addMessage(String text,String author,int timestamp){
         sizeController();
-        String text=new String(copyArgs[i+1]);
-        String author=new String(copyArgs[i+2]);
-        int time=Integer.parseInt(copyArgs[i+3]);
-        history[messageCount++]=new Message(lastId,text,author,time);
+        history[messageCount++]=new Message(lastId,text,author,timestamp);
         lastId++;
     }
-    private static void removeMessage(int i){   /// temp, will be edited later with small changes
-        int ind=Integer.parseInt(copyArgs[i+1]);
+    private static void removeMessage(int id){   /// temp, will be edited later with small changes with ID
         int j;
         for(j=0;j<messageCount;j++){
-            if(history[j].getId()==ind)
+            if(history[j].getId()==id)
                 break;
         }
         if(j<messageCount){
@@ -61,43 +56,86 @@ public class Chat {
             }
             messageCount--;
         }
+        else
+            System.out.println("No messages deleted");
     }
-    private static void searchAuthor(int i){
+    private static void searchAuthor(String auth){
         boolean found=false;
-        String auth=new String(copyArgs[i+1]);
         for(int j=0;j<messageCount;j++)
             if(auth.equals(history[j].getAuthor())){
                 if(!found){
                     found=true;
-                    System.out.println("founded "+copyArgs[i+1]+"'s messages:");
+                    System.out.println("founded "+auth+"'s messages:");
                 }
                 System.out.println(history[j].toString());
             }
         if(!found)
-            System.out.println(copyArgs[i+1]+"'s messages not found");
+            System.out.println(auth+"'s messages not found");
     }
-    private static void showTimeRangeHistory(int i){
+    private static void searchMessageByLexem(String lexem){
         boolean found=false;
-        int l=Integer.parseInt(copyArgs[i+1]);
-        int r=Integer.parseInt(copyArgs[i+2]);
+        for(int j=0;j<messageCount;j++){
+            StringTokenizer my=new StringTokenizer(history[j].getText(),",.?! \"()[]<>:;'");
+            boolean ok=false;
+            while(my.hasMoreTokens()){
+                if(lexem.equals(my.nextToken())){
+                    ok=true;
+                    break;
+                }
+            }
+            if(ok){
+                if(!found){
+                    found=true;
+                    System.out.println("'messages with key word \" "+lexem+" \" found:");
+                }
+                System.out.println(history[j].toString());
+            }
+        }
+        if(!found)
+            System.out.println("'messages with key word \" "+lexem+" \" not found");
+    }
+    private static void searchMessageWithRegularExpression(String expression){
+        boolean found=false;
+        for(int j=0;j<messageCount;j++){
+            String text=history[j].getText();
+            boolean ok=false;
+            for(int k=0;k+expression.length()-1<text.length();k++){
+                if(expression.equals(text.substring(k,k+expression.length()))){
+                    ok=true;
+                    break;
+                }
+            }
+            if(ok){
+                if(!found){
+                    found=true;
+                    System.out.println("'messages with expression \" "+expression+" \" found:");
+                }
+                System.out.println(history[j].toString());
+            }
+        }
+        if(!found)
+            System.out.println("'messages with expression \" "+expression+" \" not found");
+    }
+    private static void showTimeRangeHistory(int l,int r){
+        boolean found=false;
         for(int j=0;j<messageCount;j++)
             if(history[j].getTimestamp()>=l && history[j].getTimestamp()<=r){
                 if(!found){
                     found=true;
-                    System.out.println("founded in time range "+copyArgs[i+1]+"-"+copyArgs[i+2]+" messages:");
+                    System.out.println("founded in time range "+l+"-"+r+" messages:");
                 }
                 System.out.println(history[j].toString());
             }
         if(!found)
-            System.out.println("messages in time range "+copyArgs[i+1]+"-"+copyArgs[i+2]+" not found");
+            System.out.println("messages in time range "+l+"-"+r+" not found");
     }
-    private static void showHistory(){     /// temp, will be edited later with small changes
+    private static void showHistory(){     /// temp, will be edited later with small changes after adding timestamp
         System.out.println("history:");
         for(int j=0;j<messageCount;j++){
             System.out.println(history[j].toString()+"\n");
         }
     }
-    private static void downloadFromFile(String fileName) throws IOException{     /// temp, will be modified after changing ID
+    private static void downloadFromFile(String fileName) throws IOException{
         messageCount=0;
         JsonReader my=new JsonReader(new InputStreamReader(new FileInputStream(fileName)));
         Gson gson=new Gson();
@@ -120,18 +158,18 @@ public class Chat {
 
         ///    temp, will be removed later with adding the .json files
      //   downloadFromFile("output.json");
-        copyArgs = new String[args.length];
         int i=0;
-        for(i=0;i<args.length;i++)
-            copyArgs[i]=new String(args[i]);
-        i=0;
         while(i<args.length){
             if("1".equals(args[i])){
-                addMessage(i);
+                String text=args[i+1];
+                String author=args[i+2];
+                int timestamp=Integer.parseInt(args[i+3]);
+                addMessage(text,author,timestamp);
                 i+=4;
             }
             else if("2".equals(args[i])){
-                removeMessage(i);
+                int id=Integer.parseInt(args[i+1]);
+                removeMessage(id);
                 i+=2;
             }
             else if("3".equals(args[i])){
@@ -139,16 +177,27 @@ public class Chat {
                 i++;
             }
             else if("4".equals(args[i])){
-                searchAuthor(i);
+                searchAuthor(args[i+1]);
                 i+=2;
             }
             else if("5".equals(args[i])){
-                showTimeRangeHistory(i);
+                int l,r;
+                l=Integer.parseInt(args[i+1]);
+                r=Integer.parseInt(args[i+2]);
+                showTimeRangeHistory(l,r);
                 i+=3;
             }
+            else if("6".equals(args[i])){
+                searchMessageByLexem(args[i+1]);
+                i+=2;
+            }
+            else if("7".equals(args[i])){
+                searchMessageWithRegularExpression(args[i+1]);
+                i+=2;
+            }
         }
-        saveHistory();
-        showHistory();
+    //    saveHistory();
+    //    showHistory();
         ///
     }
 }
