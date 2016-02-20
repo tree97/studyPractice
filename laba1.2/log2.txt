@@ -1,15 +1,12 @@
 Request: add message
 text: abacaba aba
 author: Vadim
-time: 103
 Request: add message
 text: bla-bla-bla
 author: Tonya
-time: 113
 Request: add message
 text: Hello,Tonya
 author: Vadim
-time: 200
 Request: show messages
 Request: show messages with author
 author: Vova
