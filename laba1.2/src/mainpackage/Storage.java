@@ -10,31 +10,36 @@ import java.io.*;
  */
 public class Storage {
 
-    static void downloadFromFile(String fileName) throws IOException {
-        ChatData.messageCount = 0;
+     private ChatData data;
+
+     public Storage(ChatData info) {
+         data = info;
+     }
+
+     void downloadFromFile(String fileName) throws IOException {
+        data.messageCount = 0;
         JsonReader my = new JsonReader(new InputStreamReader(new FileInputStream(fileName) ) );
         Gson gson = new Gson();
 
-        ChatData.history = gson.fromJson(my, Message[].class);
-
-        ChatData.containerSize = ChatData.messageCount = ChatData.history.length;
+        data.history = gson.fromJson(my, Message[].class);
+        data.containerSize = data.messageCount = data.history.length;
         //reader.close();
     }
 
-    static void saveHistory() throws IOException {
-        Writer saving = new OutputStreamWriter(new FileOutputStream("output.json"), "UTF-8");
+    void saveHistory(String fileName) throws IOException {
+        Writer saving = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8");
         Gson gson = new Gson();
-        Message[] tempMessage = new Message[ChatData.messageCount];
-        System.arraycopy(ChatData.history, 0, tempMessage, 0, ChatData.messageCount);
+        Message[] tempMessage = new Message[data.messageCount];
+        System.arraycopy(data.history, 0, tempMessage, 0, data.messageCount);
         gson.toJson(tempMessage, saving);
         saving.close();
-        Chat.log.append("Current messages are saved" + '\n');
+        App.log.append("Current messages are saved" + '\n');
     }
 
-    static void saveLog() throws IOException {
-        File save = new File("log2.txt");
+    void saveLog(String fileName) throws IOException {
+        File save = new File(fileName);
         BufferedWriter output = new BufferedWriter(new FileWriter(save) );
-        output.write(Chat.log.toString() );
+        output.write(App.log.toString() );
         output.close();
     }
 }

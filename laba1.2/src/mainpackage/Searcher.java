@@ -7,27 +7,33 @@ import java.util.StringTokenizer;
  */
 public class Searcher {
 
-    static void Author(String auth) {
+    private ChatData data;
+
+    public Searcher(ChatData info) {
+        data=info;
+    }
+
+    void author(String auth) {
         int count = 0;
-        for( int j = 0; j < ChatData.messageCount; j++ ) {
-            if ( auth.equals(ChatData.history[j].getAuthor() ) ) {
+        for( int j = 0; j < data.messageCount; j++ ) {
+            if ( auth.equals(data.history[j].getAuthor() ) ) {
                 if ( count == 0 ) {
                     System.out.println("founded " + auth + "'s messages:");
                 }
                 count++;
-                System.out.println(ChatData.history[j].toString() );
+                System.out.println(data.history[j].toString() );
             }
         }
         if( count == 0 ) {
             System.out.println(auth + "'s messages not found");
         }
-        Chat.log.append(((Integer) count).toString() + " messages found" + '\n');
+        App.log.append(((Integer) count).toString() + " messages found" + '\n');
     }
 
-    static void MessageByLexem(String lexem) {
+    void keyWord(String lexem) {
         int count = 0;
-        for( int j = 0; j < ChatData.messageCount; j++ ) {
-            StringTokenizer my = new StringTokenizer(ChatData.history[j].getText(), ",.?! \"()[]<>:;'");
+        for( int j = 0; j < data.messageCount; j++ ) {
+            StringTokenizer my = new StringTokenizer(data.history[j].getText(), ",.?! \"()[]<>:;'");
             boolean ok = false;
             while( my.hasMoreTokens() ) {
                 if( lexem.equals(my.nextToken() ) ) {
@@ -40,19 +46,19 @@ public class Searcher {
                     System.out.println("'messages with key word \" " + lexem + " \" found:");
                 }
                 count++;
-                System.out.println(ChatData.history[j].toString() );
+                System.out.println(data.history[j].toString() );
             }
         }
         if( count == 0 ) {
             System.out.println("'messages with key word \" " + lexem + " \" not found");
         }
-        Chat.log.append(((Integer) count).toString() + " messages found" + '\n');
+        App.log.append(((Integer) count).toString() + " messages found" + '\n');
     }
 
-    static void MessageWithRegularExpression(String expression) {
+    void regularExpression(String expression) {
         int count = 0;
-        for( int j = 0; j < ChatData.messageCount; j++ ) {
-            String text = ChatData.history[j].getText();
+        for( int j = 0; j < data.messageCount; j++ ) {
+            String text = data.history[j].getText();
             boolean ok = false;
             for( int k = 0; k + expression.length() - 1 < text.length(); k++ ) {
                 if( expression.equals(text.substring(k, k + expression.length() ) ) ) {
@@ -65,32 +71,32 @@ public class Searcher {
                     System.out.println("'messages with expression \" " + expression + " \" found:");
                 }
                 count++;
-                System.out.println(ChatData.history[j].toString() );
+                System.out.println(data.history[j].toString() );
             }
         }
         if( count == 0 ) {
             System.out.println("'messages with expression \" " + expression + " \" not found");
         }
-        Chat.log.append(((Integer) count).toString() + " messages found" + '\n');
+        App.log.append(((Integer) count).toString() + " messages found" + '\n');
     }
 
-    static void TimeRangeHistory(long l, long r) {
+    void timeRangeHistory(long l, long r) {
         if( l > r ) {
-            Chat.log.append("Warning: Incorrect time period" + '\n');
+            App.log.append("Warning: Incorrect time period" + '\n');
         }
         int count = 0;
-        for( int j = 0; j < ChatData.messageCount; j++ ) {
-            if ( ( ChatData.history[j].getTimestamp() >= l ) && ( ChatData.history[j].getTimestamp() <= r ) ) {
+        for( int j = 0; j < data.messageCount; j++ ) {
+            if ( ( data.history[j].getTimestamp() >= l ) && ( data.history[j].getTimestamp() <= r ) ) {
                 if ( count == 0 ) {
                     System.out.println("founded in time range " + l + "-" + r + " messages:");
                 }
                 count++;
-                System.out.println(ChatData.history[j].toString() );
+                System.out.println(data.history[j].toString() );
             }
         }
         if( count == 0 ) {
             System.out.println("messages in time range " + l + "-" + r + " not found");
         }
-        Chat.log.append(((Integer) count).toString() + " messages found" + '\n');
+        App.log.append(((Integer) count).toString() + " messages found" + '\n');
     }
 }

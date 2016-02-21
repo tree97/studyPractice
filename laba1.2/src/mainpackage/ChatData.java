@@ -5,12 +5,12 @@ package mainpackage;
  */
 public class ChatData {
 
-    static int messageCount = 0;
-    static int containerSize = 10;
-    private static int lastId = 0;
-    static Message[] history = new Message[containerSize];
+    int messageCount = 0;
+    int containerSize = 10;
+    int lastId = 0;
+    Message[] history = new Message[containerSize];
 
-    private static void sizeController() {
+    private void sizeController() {
         Message[] buf;
         if ( messageCount == containerSize ) {
             buf = new Message[containerSize];
@@ -33,19 +33,19 @@ public class ChatData {
         }
     }
 
-    static void addMessage(String text, String author) {
+    void addMessage(String text, String author) {
         int bigTextLength = 100;
         sizeController();
-        Chat.addedMessagesCount++;
+        App.addedMessagesCount++;
         long timestamp = System.currentTimeMillis();
         history[messageCount++] = new Message(lastId, text, author, timestamp);
         lastId++;
         if ( text.length() > bigTextLength ) {
-            Chat.log.append("Warning: Text message is long ( longer than " + ((Integer) bigTextLength).toString() + " symbols )" + '\n');
+            App.log.append("Warning: Text message is long ( longer than " + ((Integer) bigTextLength).toString() + " symbols )" + '\n');
         }
     }
 
-    static void removeMessage(int id) {   /// temp, will be edited later with small changes with ID
+    void removeMessage(int id) {   /// temp, will be edited later with small changes with ID
         int j;
         for ( j = 0; j < messageCount; j++ ) {
             if ( history[j].getId() == id ) {
@@ -58,9 +58,9 @@ public class ChatData {
                 j++;
             }
             messageCount--;
-            Chat.removedMessagesCount++;
+            App.removedMessagesCount++;
         } else {
-            Chat.log.append("Warning: No message with such ID for delete" + '\n');
+            App.log.append("Warning: No message with such ID for delete" + '\n');
         }
     }
 }
