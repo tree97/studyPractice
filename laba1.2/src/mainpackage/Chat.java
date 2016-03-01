@@ -3,7 +3,6 @@ package mainpackage;
 import java.io.*;
 /**
  *  I hope, that adding messages will be in chronological order, if no, i will add sorting
- *
  *  1 - add message
  *  2 - remove message
  *  3 - show history
