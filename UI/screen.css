@@ -1,0 +1,38 @@
+@media only screen and (max-width: 700px) {
+    .header {
+        font-size: 1.5em;
+    }
+    .button {
+        width: 7%;
+        height: 4%;
+        font-size: 0.9em;
+    }
+    .buttonActions {
+        width: 7%;
+        height: 4%;
+        font-size: 0.9em;
+    }
+    .mainContent {
+        width: 97%;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .header {
+        font-size: 0.7em;
+    }
+    .button {
+        width: 6%;
+        height: 3%;
+        font-size: 0.8em;
+    }
+    .buttonActions {
+        width: 6%;
+        height: 3%;
+        font-size: 0.8em;
+    }
+    .mainContent {
+        width: 97%;
+    }
+}
+
