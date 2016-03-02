@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * all operations with hard disk are here
@@ -17,20 +18,17 @@ public class Storage {
      }
 
      void downloadFromFile(String fileName) throws IOException {
-        data.messageCount = 0;
         JsonReader my = new JsonReader(new InputStreamReader(new FileInputStream(fileName) ) );
         Gson gson = new Gson();
 
-        data.history = gson.fromJson(my, Message[].class);
-        data.containerSize = data.messageCount = data.history.length;
-        //reader.close();
+        data.history = gson.fromJson(my, data.history.getClass() );
+        // reader.close();
     }
 
     void saveHistory(String fileName) throws IOException {
         Writer saving = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8");
         Gson gson = new Gson();
-        Message[] tempMessage = new Message[data.messageCount];
-        System.arraycopy(data.history, 0, tempMessage, 0, data.messageCount);
+        ArrayList < Message > tempMessage = new ArrayList < Message > (data.history);
         gson.toJson(tempMessage, saving);
         saving.close();
         App.log.append("Current messages are saved" + '\n');

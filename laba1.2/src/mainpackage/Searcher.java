@@ -15,13 +15,13 @@ public class Searcher {
 
     void author(String auth) {
         int count = 0;
-        for( int j = 0; j < data.messageCount; j++ ) {
-            if ( auth.equals(data.history[j].getAuthor() ) ) {
+        for( int j = 0; j < data.history.size(); j++ ) {
+            if ( auth.equals(data.history.get(j).getAuthor() ) ) {
                 if ( count == 0 ) {
                     System.out.println("founded " + auth + "'s messages:");
                 }
                 count++;
-                System.out.println(data.history[j].toString() );
+                System.out.println(data.history.get(j).toString() );
             }
         }
         if( count == 0 ) {
@@ -32,8 +32,8 @@ public class Searcher {
 
     void keyWord(String lexem) {
         int count = 0;
-        for( int j = 0; j < data.messageCount; j++ ) {
-            StringTokenizer my = new StringTokenizer(data.history[j].getText(), ",.?! \"()[]<>:;'");
+        for( int j = 0; j < data.history.size(); j++ ) {
+            StringTokenizer my = new StringTokenizer(data.history.get(j).getText(), ",.?! \"()[]<>:;'");
             boolean ok = false;
             while( my.hasMoreTokens() ) {
                 if( lexem.equals(my.nextToken() ) ) {
@@ -46,7 +46,7 @@ public class Searcher {
                     System.out.println("'messages with key word \" " + lexem + " \" found:");
                 }
                 count++;
-                System.out.println(data.history[j].toString() );
+                System.out.println(data.history.get(j).toString() );
             }
         }
         if( count == 0 ) {
@@ -57,8 +57,8 @@ public class Searcher {
 
     void regularExpression(String expression) {
         int count = 0;
-        for( int j = 0; j < data.messageCount; j++ ) {
-            String text = data.history[j].getText();
+        for( int j = 0; j < data.history.size(); j++ ) {
+            String text = data.history.get(j).getText();
             boolean ok = false;
             for( int k = 0; k + expression.length() - 1 < text.length(); k++ ) {
                 if( expression.equals(text.substring(k, k + expression.length() ) ) ) {
@@ -71,7 +71,7 @@ public class Searcher {
                     System.out.println("'messages with expression \" " + expression + " \" found:");
                 }
                 count++;
-                System.out.println(data.history[j].toString() );
+                System.out.println(data.history.get(j).toString() );
             }
         }
         if( count == 0 ) {
@@ -85,13 +85,13 @@ public class Searcher {
             App.log.append("Warning: Incorrect time period" + '\n');
         }
         int count = 0;
-        for( int j = 0; j < data.messageCount; j++ ) {
-            if ( ( data.history[j].getTimestamp() >= l ) && ( data.history[j].getTimestamp() <= r ) ) {
+        for( int j = 0; j < data.history.size(); j++ ) {
+            if ( ( data.history.get(j).getTimestamp() >= l ) && ( data.history.get(j).getTimestamp() <= r ) ) {
                 if ( count == 0 ) {
                     System.out.println("founded in time range " + l + "-" + r + " messages:");
                 }
                 count++;
-                System.out.println(data.history[j].toString() );
+                System.out.println(data.history.get(j).toString() );
             }
         }
         if( count == 0 ) {

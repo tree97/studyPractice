@@ -35,8 +35,8 @@ public class Chat {
 
     void showHistory() {     /// temp, will be edited later with small changes after adding another requests
         System.out.println("history:");
-        for( int j = 0; j < data.messageCount; j++ ) {
-            System.out.println(data.history[j].toString() + "\n");
+        for( int j = 0; j < data.history.size(); j++ ) {
+            System.out.println(data.history.get(j).toString() + "\n");
         }
     }
 

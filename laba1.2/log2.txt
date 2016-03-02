@@ -7,6 +7,8 @@ author: Tonya
 Request: add message
 text: Hello,Tonya
 author: Vadim
+Request: delete message
+ID: 1
 Request: show messages
 Request: show messages with author
 author: Vova
@@ -22,4 +24,4 @@ regular expression: " aba ab "
 1 messages found
 End of program work:
 added messages count = 3
-removed messages count = 0
+removed messages count = 1
