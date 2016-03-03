@@ -35,11 +35,8 @@ public class Searcher {
         for( int j = 0; j < data.history.size(); j++ ) {
             StringTokenizer my = new StringTokenizer(data.history.get(j).getText(), ",.?! \"()[]<>:;'");
             boolean ok = false;
-            while( my.hasMoreTokens() ) {
-                if( lexem.equals(my.nextToken() ) ) {
-                    ok = true;
-                    break;
-                }
+            while( my.hasMoreTokens() && !ok ) {
+                ok = lexem.equals(my.nextToken() );
             }
             if( ok ) {
                 if( count == 0 ) {
@@ -59,14 +56,7 @@ public class Searcher {
         int count = 0;
         for( int j = 0; j < data.history.size(); j++ ) {
             String text = data.history.get(j).getText();
-            boolean ok = false;
-            for( int k = 0; k + expression.length() - 1 < text.length(); k++ ) {
-                if( expression.equals(text.substring(k, k + expression.length() ) ) ) {
-                    ok = true;
-                    break;
-                }
-            }
-            if( ok ) {
+            if( text.contains(expression) ) {
                 if( count == 0 ) {
                     System.out.println("'messages with expression \" " + expression + " \" found:");
                 }
