@@ -5,14 +5,17 @@ import java.util.ArrayList;
 /**
  * all working data is here
  */
+
 public class ChatData {
 
-    int lastId = 0;
+    private int lastId = 0;
+    private int addedMessagesCount = 0;
+    private int removedMessagesCount = 0;
     ArrayList < Message > history = new ArrayList < Message > ();
 
     void addMessage(String text, String author) {
         int bigTextLength = 100;
-        App.addedMessagesCount++;
+        addedMessagesCount++;
         long timestamp = System.currentTimeMillis();
         Message temp = new Message(lastId, text, author, timestamp);
         history.add(temp);
@@ -31,9 +34,17 @@ public class ChatData {
         }
         if ( j < history.size() ) {
             history.remove(j);
-            App.removedMessagesCount++;
+            removedMessagesCount++;
         } else {
             App.log.append("Warning: No message with such ID for delete" + '\n');
         }
+    }
+
+    int getAddedMessagesCount() {
+        return addedMessagesCount;
+    }
+
+    int getRemovedMessagesCount() {
+        return removedMessagesCount;
     }
 }

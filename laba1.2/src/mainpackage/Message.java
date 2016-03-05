@@ -2,9 +2,10 @@ package mainpackage;
 
 import java.text.*;
 
-/* class message
-    has ID,timestamp of publishing,text message,author
+/** class message
+ *  has ID,timestamp of publishing,text message,author
  */
+
 public class Message {
 
     private int id;

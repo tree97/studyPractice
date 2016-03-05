@@ -1,8 +1,9 @@
 package mainpackage;
 
 import java.io.*;
+
 /**
- *  I hope, that adding messages will be in chronological order, if no, i will add sorting
+ *  I hope, that adding messages will be in chronological order, if no, I will add sorting
  *  1 - add message
  *  2 - remove message
  *  3 - show history
@@ -11,6 +12,7 @@ import java.io.*;
  *  6 - find message by lexem
  *  7 - search by regular expression
  */
+
 public class Chat {
 
     private ChatData data;
@@ -42,8 +44,8 @@ public class Chat {
 
     void finalLogging() {
         App.log.append("End of program work:" + '\n');
-        App.log.append("added messages count = " + ((Integer) App.addedMessagesCount).toString() + '\n');
-        App.log.append("removed messages count = " + ((Integer) App.removedMessagesCount).toString() + '\n');
+        App.log.append("added messages count = " + ((Integer) data.getAddedMessagesCount()).toString() + '\n');
+        App.log.append("removed messages count = " + ((Integer) data.getRemovedMessagesCount()).toString() + '\n');
     }
 
     void request(String[] args) {

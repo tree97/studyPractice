@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 /**
  *  all searching requests
  */
+
 public class Searcher {
 
     private ChatData data;

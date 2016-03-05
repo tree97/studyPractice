@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  * all operations with hard disk are here
  */
+
 public class Storage {
 
      private ChatData data;
@@ -20,9 +21,9 @@ public class Storage {
      void downloadFromFile(String fileName) throws IOException {
         JsonReader my = new JsonReader(new InputStreamReader(new FileInputStream(fileName) ) );
         Gson gson = new Gson();
-
         data.history = gson.fromJson(my, data.history.getClass() );
-        // reader.close();
+        my.close();
+        App.log.append("Messages are read from .json file" + '\n');
     }
 
     void saveHistory(String fileName) throws IOException {
