@@ -1,108 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="style.css"/>
-<link rel="stylesheet" href="screen.css"/>
 <head>
     <meta charset="UTF-8">
-    <title>My chat</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="responsive.css"/>
+    <script src="scripts.js"></script>
+    <title>Not bad chat</title>
 </head>
-<body>
-    <div class = "chatContainer">
-        <header class = "header">Bad quality chat</header>
+<body onload="run();">
+    <main class = "chatContainer">
+        <header class = "header">Not bad chat</header>
         <div class ="sectionActions">
             <input id = "name" type = "text" class = "inputName" placeholder = "Enter your name">
-            <button id = "enterName" type = "button" class = "button">Ok</button>
-            <button id = "delete" type = "button" class = "buttonActions">Delete</button>
-            <button id = "edit" type = "button" class = "buttonActions">Edit</button>
+            <button id = "enterName" type = "button" class = "buttonOk">Ok</button>
+        </div>
+        <div class = "sectionHistory">
+            <table id="tableMessage" style="width: 100%; table-layout: auto">
+                <tbody>
+                </tbody>
+            </table>
         </div>
         <div class= "sectionAddMessage">
             <input id = "message" type = "text" class="inputMessage" placeholder="Enter you message"
                    contenteditable="true">
-            <input type="submit" value="Send" class="button">
+            <button id="addButton" type="button" class="buttonSend">Send</button>
         </div>
-        <div class = "mainContent">
-            <table class="tableMessage" style="width: 100%; table-layout: auto">
-                <tbody>
-                <tr>
-                    <th class="outputName">Vadim2</th>
-                    <th class="outputAction"></th>
-                    <th class="outputTime">18:30</th>
-                </tr>
-                <tr>
-                    <td class="outputMessage">I edited my algorithm?</td>
-                    <td class="outputError"></td>
-                </tr>
-                <tr>
-                    <th class="outputName">Aleksei</th>
-                    <th class="outputAction"></th>
-                    <th class="outputTime">18:40</th>
-                </tr>
-                <tr>
-                    <td class="outputMessage">Does it work?</td>
-                    <td class="outputError">
-                         <img src="https://www.iconfinder.com/data/icons/6x16-free-application-icons/16/Erase.png" width="15" height="15">
-                    </td>
-                </tr>
-           
-
-                <tr>
-                     <th class="outputName">Vadim2</th>
-                     <th class="outputAction"></th>
-                     <th class="outputTime">18:50</th>
-                </tr>
-                <tr>
-                      <td width = 70% class="outputMessage">No, it still doesn't work. I know the test with double w as a graph and my algo can't work on it correctly. Maybe you have an idea?</td>
-                      <td width = 30% class="outputError"></td>
-                </tr>
-
-                <tr>
-               	   <th class="outputName">Vadim2</th>
-               	   <th class="outputAction">edited</th>
-                	   <th class="outputTime">19:00</th>
-                </tr>
-                <tr>
-               	  <td class="outputMessage">Do you listen to me?</td>
-               	  <td class="outputError"></td>
-                </tr>
-                
-                <tr>
-                    <th class="outputName">Vadim2</th>
-                    <th class="outputAction"></th>
-                    <th class="outputTime">19:07</th>
-                </tr>
-                <tr>
-                    <td class="outputMessage">As usual, nobydy wants to solve problems of anothers, because we are very beasy and lasy</td>
-                    <td class="outputError"></td>
-                </tr>
-
-                <tr>
-                    <th class="outputName">Vadim2</th>
-                    <th class="outputAction">deleted</th>
-                    <th class="outputTime">19:11</th>
-                </tr>
-                <tr>
-                    <td class="outputMessage"></td>
-                    <td class="outputError"></td>
-                </tr>
-
-                <tr>
-                    <th class="outputName">Vadim2</th>
-                    <th class="outputAction"></th>
-                    <th class="outputTime">19:09</th>
-                </tr>
-                <tr>
-                    <td class="outputMessage">Even C can work too slow, for example cycle for, ASM loop is twice faster</td>
-                    <td class="outputError"></td>
-                </tr>
-
-
-                </tbody>
-            </table>
-        </div>
-    </div>
     <footer>
-        <p>No contact information, don't desturb the developer</a>.</p>
+        <p>Contact information: <a href="mailto:matskevich1997@gmail.com">
+            matskevich1997@gmail.com</a></p>
         <p>Minsk 2016</p>
     </footer>
+    </main>
 </body>
 </html>
