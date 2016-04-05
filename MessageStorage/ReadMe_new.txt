@@ -1,0 +1,1 @@
+Before compiling and running the appliction INSTALL JDK 8!!!
