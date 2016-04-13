@@ -118,21 +118,27 @@ public class MessageHelper {
 
     public static Message getClientMessage(InputStream inputStream) throws ParseException {
         JSONObject jsonObject = stringToJsonObject(inputStreamToString(inputStream));
-        String id = ((String) jsonObject.get(Constants.Message.FIELD_ID));
+        Long id = (long)jsonObject.get(Constants.Message.FIELD_ID);
         String author = ((String) jsonObject.get(Constants.Message.FIELD_AUTHOR));
-        long timestamp = ((long) jsonObject.get(Constants.Message.FIELD_TIMESTAMP));
+        String timestamp = ((String)jsonObject.get(Constants.Message.FIELD_TIMESTAMP));
         String text = ((String) jsonObject.get(Constants.Message.FIELD_TEXT));
-        Message message = new Message();
+        Boolean deleted = (boolean)jsonObject.get(Constants.Message.FIELD_DELETED);
+        Boolean edited = (boolean)jsonObject.get(Constants.Message.FIELD_EDITED);
+        Boolean wasEdited = (boolean)jsonObject.get(Constants.Message.FIELD_WASEDITED);   
+	  Message message = new Message();
         message.setId(id);
         message.setAuthor(author);
         message.setTimestamp(timestamp);
         message.setText(text);
+        message.setDeleted(deleted);
+        message.setEdited(edited);
+        message.setWasEdited(wasEdited);
         return message;
     }
 
     public static Message getClientMessageToReplace(InputStream inputStream) throws ParseException {
         JSONObject jsonObject = stringToJsonObject(inputStreamToString(inputStream));
-        String id = ((String) jsonObject.get(Constants.Message.FIELD_ID));
+        Long id = ((long) jsonObject.get(Constants.Message.FIELD_ID));
         String text = ((String) jsonObject.get(Constants.Message.FIELD_TEXT));
         Message message = new Message();
         message.setId(id);
@@ -165,15 +171,21 @@ public class MessageHelper {
         jsonObject.put(Constants.Message.FIELD_AUTHOR, message.getAuthor());
         jsonObject.put(Constants.Message.FIELD_TIMESTAMP, message.getTimestamp());
         jsonObject.put(Constants.Message.FIELD_TEXT, message.getText());
-        return jsonObject;
+        jsonObject.put(Constants.Message.FIELD_EDITED, message.isEdited().toString());
+        jsonObject.put(Constants.Message.FIELD_WASEDITED, message.isWasEdited().toString());
+        jsonObject.put(Constants.Message.FIELD_DELETED, message.isDeleted().toString());
+	  return jsonObject;
     }
 
     public static Message jsonObjectToMessage(JSONObject jsonObject) {
         Message message = new Message();
         message.setText((String)jsonObject.get(Constants.Message.FIELD_TEXT));
         message.setAuthor((String)jsonObject.get(Constants.Message.FIELD_AUTHOR));
-        message.setId((String)jsonObject.get(Constants.Message.FIELD_ID));
-        message.setTimestamp((long)jsonObject.get(Constants.Message.FIELD_TIMESTAMP));
-        return message;
+        message.setId((long)jsonObject.get(Constants.Message.FIELD_ID));
+        message.setTimestamp((String)jsonObject.get(Constants.Message.FIELD_TIMESTAMP));
+        message.setEdited(Boolean.parseBoolean((String)jsonObject.get(Constants.Message.FIELD_EDITED)));
+        message.setWasEdited(Boolean.parseBoolean((String)jsonObject.get(Constants.Message.FIELD_WASEDITED)));
+        message.setDeleted(Boolean.parseBoolean((String)jsonObject.get(Constants.Message.FIELD_DELETED)));    
+	  return message;
     }
 }

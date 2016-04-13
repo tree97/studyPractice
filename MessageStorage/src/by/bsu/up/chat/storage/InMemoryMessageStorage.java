@@ -49,8 +49,13 @@ public class InMemoryMessageStorage implements MessageStorage {
     @Override
     public boolean updateMessage(Message message) {
         for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).getId().equals(message.getId())) {
+            if (messages.get(i).getId().compareTo(message.getId()) == 0) {
                 Message newMessage = messages.get(i);
+                if (newMessage.isDeleted())
+                    return false;
+                if (newMessage.isEdited()) {
+                    newMessage.setWasEdited(true);
+                }
                 newMessage.setText(message.getText());
                 messages.set(i, newMessage);
                 rewriteHistory();
@@ -63,8 +68,13 @@ public class InMemoryMessageStorage implements MessageStorage {
     @Override
     public synchronized boolean removeMessage(String messageId) {
         for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).getId().equals(messageId)) {
-                messages.remove(i);
+            if (messages.get(i).getId().compareTo(Long.parseLong(messageId)) == 0) {
+                Message newMessage = messages.get(i);
+                newMessage.setText("");
+                newMessage.setDeleted(true);
+                newMessage.setEdited(false);
+                newMessage.setWasEdited(false);
+                messages.set(i, newMessage);
                 rewriteHistory();
                 return true;
             }
@@ -83,7 +93,7 @@ public class InMemoryMessageStorage implements MessageStorage {
             writer.write(array.toString());
             return true;
         } catch (IOException e) {
-            logger.error("Seagate HDD detected!!!", e);
+            logger.error("Can't save history to file!!!", e);
             return false;
         }
     }
@@ -95,15 +105,19 @@ public class InMemoryMessageStorage implements MessageStorage {
                 jsonArrayString.append(reader.readLine());
             }
         } catch (IOException e) {
-            logger.error("Seagate HDD detected!!!", e);
+            logger.error("Can't load history from file!!!", e);
         }
 
         JSONArray jsonArray = new JSONArray();
 
+        if (jsonArrayString.length() == 0) {
+            return;
+        }
+
         try {
             jsonArray = (JSONArray) MessageHelper.getJsonParser().parse(jsonArrayString.toString());
         } catch (ParseException e) {
-            logger.error("Can't parse!!!", e);
+            logger.error("Can't parse history JSON file!!!", e);
         }
 
         for (int i = 0; i < jsonArray.size(); i ++) {
