@@ -13,7 +13,7 @@ body {
 }
 .listMessage {
     list-style: none;
-    width: 90%;
+    width: 95%;
 
 }
 
@@ -22,11 +22,11 @@ li, ul {
     margin: auto;
 }
 .header {
-    background-color: lightgreen;
-    color: white;
-    padding: 0.5em;
+    background-color: lightgray;
+    color: green;
+    padding: 0.1em;
     border-radius: 4px;
-    font-size: 3em;
+    font-size: 1.5em;
     text-align: center;
 }
 
@@ -38,7 +38,7 @@ li, ul {
 
 .sectionActions {
     height: 7%;
-    width: 70%;
+    width: 90%;
     margin: auto;
     position: relative;
 }
@@ -56,9 +56,9 @@ li, ul {
 
 .sectionHistory {
     height: 60%;
-    width: 70%;
+    width: 95%;
     overflow-y: scroll;
-    border:5px solid dimgrey;
+    border:5px solid pink;
     border-radius: 4px;
     margin: auto;
 }
@@ -68,24 +68,24 @@ li, ul {
     color: white;
     font-style: normal;
     font-size: medium;
-    text-align: left;
+    text-align: center;
     word-wrap: break-word;
 }
 
 .buttonOk {
-    background-color: darkgrey;
-    color: white;
+    background-color: green;
+    color: yellow;
     border-radius: 8px;
-    width: 60px;
+    width: 50px;
     height: 30px;
     font-size: 0.8em;
 }
 
 .buttonSend {
-    background-color: darkgrey;
-    color: white;
+    background-color: green;
+    color: yellow;
     border-radius: 8px;
-    width: 60px;
+    width: 50px;
     height: 30px;
     font-size: 0.8em;
 }
@@ -93,27 +93,27 @@ li, ul {
 
 .sectionAddMessage {
     height: 10%;
-    width: 70%;
+    width: 97%;
     margin: auto;
 }
 
  .inputMessage {
-    width: 60%;
+    width: 80%;
     padding: 1px;
-    border-radius: 4px;
-    border:3px solid lightgreen;
+    border-radius: 2px;
+    border:3px solid green;
     word-wrap: break-word;
 }
 
 .inputName {
     padding: 1px;
-    border-radius: 4px;
-    border:3px solid lightgreen;
+    border-radius: 2px;
+    border:3px solid green;
 }
 
 .inputNewMessage {
-    border:3px solid lightgreen;
-    margin:15px auto;
+    border:3px solid green;
+    margin:10px auto;
 }
 
 .overlay {
@@ -137,9 +137,10 @@ li, ul {
 }
 
 footer {
-    height: 5%;
+    height: 4%;
     font-size: 1em;
     color: white;
+    background-color:green
 }
 
 .errorIcon {

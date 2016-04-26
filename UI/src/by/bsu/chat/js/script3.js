@@ -1,5 +1,5 @@
 /**Use ajax
- * Modified by Vadim 13.04.2016
+ * Modified by Vadim 26.04.2016
  */
 
 var Application = {
@@ -47,7 +47,7 @@ function run() {
 }
 
 function setAuthor() {
-    if (author === 'null' || author == 'undefined')
+    if (author === null)
         author = "Untitled";
 
     var inputName = document.getElementById('author');
@@ -73,8 +73,7 @@ function onOkButtonClick() {
         return;
     author = nameItem.value;
 
-    nameItem.style.color = 'blue';
-    nameItem.style.fontStyle = 'italic';
+    nameItem.style.color = 'red';
 
     var inputMessage = document.getElementById('message');
     inputMessage.setAttribute('placeholder', author + ', enter you message');
@@ -87,14 +86,15 @@ function editMessage(element, done) {
 
     var message = Application.messageList[index];
     var dialog = document.getElementById("overlay");
-    dialog.style.visibility = (dialog.style.visibility == "visible") ? "hidden" : "visible";
+    dialog.style.visibility = "visible";
 
     var inputNewMessage = document.getElementById('newText');
+    inputNewMessage.value=message.text;
     inputNewMessage.focus();
 
     document.getElementById('exit').onclick = function () {
         inputNewMessage.value = "";
-        dialog.style.visibility = (dialog.style.visibility == "visible") ? "hidden" : "visible";
+        dialog.style.visibility = "hidden";
     };
 
     document.getElementById('ok').onclick = function () {
@@ -102,11 +102,11 @@ function editMessage(element, done) {
         message.edited = 'true';
 
         inputNewMessage.value = "";
-        dialog.style.visibility = (dialog.style.visibility == "visible") ? "hidden" : "visible";
+        dialog.style.visibility = "hidden";
 
         if (message.wasEdited == 'true') {
             element.removeChild(element.lastChild);
-        }
+        } 
         ajax('PUT', Application.mainUrl, JSON.stringify(message), function () {
             done(element, message);
         });
@@ -153,11 +153,10 @@ function onItemClickToEdit(element) {
     var index = indexById(Application.messageList, id);
     var message = Application.messageList[index];
 
-    message.edited = 'true';
     if (message.deleted == 'true') {
         return;
     }
-
+    message.edited = 'true';
     editMessage(currentElement, function () {
         renderMessageState(currentElement, message);
     });
@@ -176,32 +175,41 @@ function loadMessages(done) {
 
 
 function ajax(method, url, data, continueWith) {
-    var xhr = new XMLHttpRequest();
 
-    xhr.open(method || 'GET', url, true);
+    setTimeout(loop, 1000, method, url, data, continueWith);
+    function loop(method2, url2, data2, continueWith2)
+    {
+       var xhr = new XMLHttpRequest();
+	 if(method2 !== null)
+       {
+   		 xhr.open(method2, url2, true);
 
-    xhr.onload = function () {
-        if (xhr.readyState != 4) {
-            return
-        }
-        if (xhr.status != 200) {
-            return;
-        }
-        if (isError(xhr.responseText)) {
-            return;
-        }
-        continueWith(xhr.responseText);
-    };
+    		 xhr.onload = function () {
+    		    if (xhr.readyState != 4) {
+    	 	       return;
+    		    }
+     		    if (xhr.status != 200) {
+     	 	       return;
+       	    }
+       	    if (isError(xhr.responseText)) {
+       	       return;
+       	    }
+       	    continueWith2(xhr.responseText);
+     		 };
 
-    var errorIcon = document.getElementById('errorIcon');
+     		 var errorIcon = document.getElementById('errorIcon');
 
-    xhr.onerror = function (e) {
-        errorIcon.style.visibility = (errorIcon.style.visibility == "visible") ? "hidden" : "visible";
-    };
+     		 errorIcon.style.visibility = "hidden";
 
-    errorIcon.style.visibility = "hidden";
+    	 	 xhr.onerror = function (e) {
+     		    errorIcon.style.visibility = "visible";
+     		 };
 
-    xhr.send(data);
+     		 xhr.send(data2);
+       }
+    	 method2=null;
+	 setTimeout(loop, 2000, method2, url2, data2, continueWith2);
+    }
 }
 
 function isError(text) {
@@ -222,14 +230,7 @@ function onSendButtonClick() {
     if (textMessage == "" || textMessage == null)
         return;
 
-    var message;
-
-    if (Application.messageList.length == 0) {
-        message = newMessage(author, textMessage, getTime(), false, false, false);
-    }
-    else {
-        message = newMessage(author, textMessage, getTime(), false, false, false);
-    }
+    var message = newMessage(author, textMessage, getTime(), false, false, false);
 
     addMessage(message, function () {
         renderMessage(message);
