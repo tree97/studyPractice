@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Scanner;
 
 @WebServlet(value = "/chat/login.html")
 public class EnvVarsServlet extends HttpServlet {
@@ -13,14 +14,32 @@ public class EnvVarsServlet extends HttpServlet {
     private static final String PARAM_USERNAME = "user";
     private static final String PARAM_PASSWORD = "pass";
 
-    private boolean isCorrect(HttpServletResponse resp, String login, String password) throws ServletException, IOException {
-        if(login.equals("Vadim") && password.equals("1234")) {
-            return true;
-        } else {
-            resp.getOutputStream().println("Incorrect login or password, try again ( login: Vadim, password: 1234 )");
-            resp.sendRedirect("localhost:8080");
-            return false;
+    private String encrypt(String s)
+    {
+        long h=0;
+        for(int i=0;i<s.length();i++)
+        {
+            h*=13;
+            h+=s.charAt(i);
+            h%=171717171717379L;
         }
+        return ((Long)h).toString();
+    }
+
+    private boolean isCorrect(HttpServletResponse resp, String login, String password) throws ServletException, IOException {
+        if(login.equals("Vadim") && encrypt(password).equals("116818") ) {
+            return true;
+        }
+        if(login.equals("Tonya") && encrypt(password).equals("126338") ) {
+            return true;
+        }
+        if(login.equals("Egor") && encrypt(password).equals("507592871") ) {
+            return true;
+        }
+        if(login.equals("Vlad") && encrypt(password).equals("3212008") ) {
+            return true;
+        }
+        return false;
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,6 +63,9 @@ public class EnvVarsServlet extends HttpServlet {
 
         if( isCorrect(resp, username, password) ) {
             resp.sendRedirect("/chat/homepage.html");
+            return;
+        } else {
+            resp.sendRedirect("localhost:8080");
             return;
         }
     }
