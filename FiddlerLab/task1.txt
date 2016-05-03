@@ -1,16 +1,17 @@
-GET http://192.168.100.5:999/chat?token=TN11EN HTTP/1.1
-Host: 192.168.100.5:999
+GET http://10.0.2.15:999/chat?token=TN11EN HTTP/1.1
+Host: 10.0.2.15:999
 Connection: keep-alive
+Cache-Control: max-age=0
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
 Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36
+User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36
 Accept-Encoding: gzip, deflate, sdch
-Accept-Language: ru,en-US;q=0.8,en;q=0.6,be;q=0.4
+Accept-Language: en-US,en;q=0.8
 
 
 HTTP/1.1 200 OK
-Date: Tue, 29 Mar 2016 18:03:27 GMT
+Date: Sun, 01 May 2016 17:11:41 GMT
 Access-control-allow-origin: *
-Content-Length: 74
+Content-length: 239
 
-{"messages":["hi!","are you here?","it would be great!"],"token":"TN35EN"}
+{"messages":["POST http:\/\/10.0.2.15:999\/chat [{\"id\":0,\"timestamp\":1457184903932,\"text\":\"abacaba aba\",\"author\":\"Vadim\"},{\"id\":2,\"timestamp\":1457184903932,\"text\":\"Hello,Tonya\",\"author\":\"Vadim\"}]"],"token":"TN19EN"}
