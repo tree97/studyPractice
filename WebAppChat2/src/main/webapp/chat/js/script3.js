@@ -59,24 +59,9 @@ function setAuthor() {
 
 
 function delegateEvent(evtObj) {
-    if (evtObj.type === 'click' && evtObj.target.classList.contains('buttonOk')) {
-        onOkButtonClick(evtObj);
-    }
     if (evtObj.type === 'click' && evtObj.target.classList.contains('buttonSend')) {
         onSendButtonClick(evtObj);
     }
-}
-
-function onOkButtonClick() {
-    var nameItem = document.getElementById('author');
-    if (!nameItem.value)
-        return;
-    author = nameItem.value;
-
-    nameItem.style.color = 'red';
-
-    var inputMessage = document.getElementById('message');
-    inputMessage.setAttribute('placeholder', author + ', enter you message');
 }
 
 function editMessage(element, done) {
