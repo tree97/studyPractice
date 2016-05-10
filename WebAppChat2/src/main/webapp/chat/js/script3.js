@@ -1,6 +1,3 @@
-/**Use ajax
- * Modified by Vadim 26.04.2016
- */
 
 var Application = {
     mainUrl: 'http://localhost:8080/chat',
@@ -161,7 +158,7 @@ function loadMessages(done) {
 
 function ajax(method, url, data, continueWith) {
 
-    setTimeout(loop, 1000, method, url, data, continueWith);
+    loop(method, url, data, continueWith);
     function loop(method2, url2, data2, continueWith2)
     {
        var xhr = new XMLHttpRequest();
