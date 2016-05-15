@@ -36,9 +36,9 @@ function run() {
 
     appContainer.addEventListener('click', delegateEvent);
 
-    loadMessages(function () {
+ /*   loadMessages(function () {
         render(Application);
-    });
+    }); */
 
     setAuthor();
 }

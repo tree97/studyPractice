@@ -1,11 +1,13 @@
 package by.bsu.fpmi.up;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 @WebServlet(value = "/chat/login.html")
@@ -43,30 +45,55 @@ public class EnvVarsServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.setContentType("text/html");
+        PrintWriter printWriter = resp.getWriter();
+        if(req.getQueryString().equals("token=empty_login"))
+            printWriter.println("empty login");
+        if(req.getQueryString().equals("token=empty_password"))
+            printWriter.println("empty password");
+        if(req.getQueryString().equals("token=wrong"))
+            printWriter.println("wrong password or login");
+        if(req.getQueryString().equals("token=logout"))
+            printWriter.println("Goodbye. Please, login for continue chatting");
+        printWriter.println("<!DOCTYPE html>\n" +
+                "<html lang=\"en\" xmlns=\"http://www.w3.org/1999/html\">\n" +
+                "<head>\n" +
+                "    <title>Login page</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div>\n" +
+                "        <h3>Please login</h3>\n" +
+                "    </div>\n" +
+                "    <div>\n" +
+                "        <form action=\"/chat/login.html\" method=\"post\">\n" +
+                "            <input name=\"user\"> Username </input>\n" +
+                "            <br>\n" +
+                "            <input type=\"password\" name=\"pass\"> Password </input>\n" +
+                "            <br>\n" +
+                "            <button type=”submit”>Submit</button>\n" +
+                "        </form>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>");
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter(PARAM_USERNAME);
         if (username == null || username.trim().isEmpty()) {
-            resp.getOutputStream().println(String.format("paramater %s is required", PARAM_USERNAME));
-            resp.sendRedirect("localhost:8080");
+            resp.sendRedirect("/chat/login.html?token=empty_login");
             return;
         }
 
         String password = req.getParameter(PARAM_PASSWORD);
         if (password == null || password.trim().isEmpty()) {
-            resp.getOutputStream().println(String.format("paramater %s is required", PARAM_PASSWORD));
-            resp.sendRedirect("localhost:8080");
+            resp.sendRedirect("/chat/login.html?token=empty_password");
             return;
         }
 
         if( isCorrect(resp, username, password) ) {
-            resp.sendRedirect("/chat/homepage.html");
-            return;
+            resp.sendRedirect("/chat");
         } else {
-            resp.sendRedirect("localhost:8080");
-            return;
+            resp.sendRedirect("/chat/login.html?token=wrong");
         }
     }
 }
