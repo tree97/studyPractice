@@ -14,6 +14,10 @@ public class ChatData {
     ArrayList < Message > history = new ArrayList < Message > ();
 
     void addMessage(String text, String author) {
+        App.log.append("Request: add message" + '\n');
+        App.log.append("text: " + text + '\n');
+        App.log.append("author: " + author + '\n');
+        
         int bigTextLength = 100;
         addedMessagesCount++;
         long timestamp = System.currentTimeMillis();
@@ -26,6 +30,9 @@ public class ChatData {
     }
 
     void removeMessage(int id) {   /// temp, will be edited later with small changes with ID
+        App.log.append("Request: delete message" + '\n');
+        App.log.append("ID: " + ((Integer)id).toString() + '\n');
+        
         int j;
         for ( j = 0; j < history.size(); j++ ) {
             if ( history.get(j).getId() == id ) {

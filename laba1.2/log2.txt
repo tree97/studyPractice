@@ -1,27 +1,37 @@
 Request: add message
-text: abacaba aba
+text: hello
 author: Vadim
 Request: add message
-text: bla-bla-bla
+text: hello,Vadim
 author: Tonya
 Request: add message
-text: Hello,Tonya
+text: How are you
 author: Vadim
-Request: delete message
-ID: 1
+Request: add message
+text: I am fine, thank you
+author: Tonya
+Request: add message
+text: hello world
+author: Egor
+Request: add message
+text: stop trolling
+author: Egor
+Request: add message
+text: LOL
+author: Egor
 Request: show messages
-Request: show messages with author
-author: Vova
-0 messages found
-Request: show messages with time range
-time range: 300-400
-0 messages found
+Request: delete message
+ID: 6
+Request: show messages
 Request: show messages with key word in text
-key word: Hello
+key word: How
 1 messages found
 Request: show messages with regular expression
-regular expression: " aba ab "
-1 messages found
+regular expression: " hel "
+3 messages found
+Request: show messages with author
+author: Tonya
+2 messages found
 End of program work:
-added messages count = 3
+added messages count = 7
 removed messages count = 1

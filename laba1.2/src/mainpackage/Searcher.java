@@ -15,6 +15,9 @@ public class Searcher {
     }
 
     void author(String auth) {
+        App.log.append("Request: show messages with author" + '\n');
+        App.log.append("author: " + auth + '\n');
+        
         int count = 0;
         for( int j = 0; j < data.history.size(); j++ ) {
             if ( auth.equals(data.history.get(j).getAuthor() ) ) {
@@ -32,6 +35,9 @@ public class Searcher {
     }
 
     void keyWord(String lexem) {
+        App.log.append("Request: show messages with key word in text" + '\n');
+        App.log.append("key word: " + lexem + '\n');
+        
         int count = 0;
         for( int j = 0; j < data.history.size(); j++ ) {
             StringTokenizer my = new StringTokenizer(data.history.get(j).getText(), ",.?! \"()[]<>:;'");
@@ -54,6 +60,9 @@ public class Searcher {
     }
 
     void regularExpression(String expression) {
+        App.log.append("Request: show messages with regular expression" + '\n');
+        App.log.append("regular expression: \" " + expression + " \"" + '\n');
+        
         int count = 0;
         for( int j = 0; j < data.history.size(); j++ ) {
             String text = data.history.get(j).getText();
@@ -72,6 +81,9 @@ public class Searcher {
     }
 
     void timeRangeHistory(long l, long r) {
+        App.log.append("Request: show messages with time range" + '\n');
+        App.log.append("time range: " + ((Long)l).toString() + "-" + ((Long)r).toString() + '\n');
+        
         if( l > r ) {
             App.log.append("Warning: Incorrect time period" + '\n');
         }

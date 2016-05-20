@@ -36,6 +36,8 @@ public class Chat {
     }
 
     void showHistory() {     /// temp, will be edited later with small changes after adding another requests
+        App.log.append("Request: show messages" + '\n');
+        
         System.out.println("history:");
         for( int j = 0; j < data.history.size(); j++ ) {
             System.out.println(data.history.get(j).toString() + "\n");
@@ -54,37 +56,27 @@ public class Chat {
             while( i < args.length ) {
                 switch( args[i] ) {
                     case "1": {
-                        App.log.append("Request: add message" + '\n');
-                        App.log.append("text: " + args[i + 1] + '\n');
-                        App.log.append("author: " + args[i + 2] + '\n');
                         data.addMessage(args[i + 1], args[i + 2]);
                         i += 3;
                         break;
                     }
                     case "2": {
-                        App.log.append("Request: delete message" + '\n');
-                        App.log.append("ID: " + args[i + 1] + '\n');
                         int id=Integer.parseInt(args[i + 1]);
                         data.removeMessage(id);
                         i += 2;
                         break;
                     }
                     case "3": {
-                        App.log.append("Request: show messages" + '\n');
                         showHistory();
                         i++;
                         break;
                     }
                     case "4": {
-                        App.log.append("Request: show messages with author" + '\n');
-                        App.log.append("author: " + args[i + 1] + '\n');
                         searcher.author(args[i + 1]);
                         i += 2;
                         break;
                     }
                     case "5": {
-                        App.log.append("Request: show messages with time range" + '\n');
-                        App.log.append("time range: " + args[i + 1] + "-" + args[i + 2] + '\n');
                         long l, r;
                         l = Long.parseLong(args[i + 1]);
                         r = Long.parseLong(args[i + 2]);
@@ -93,15 +85,11 @@ public class Chat {
                         break;
                     }
                     case "6": {
-                        App.log.append("Request: show messages with key word in text" + '\n');
-                        App.log.append("key word: " + args[i + 1] + '\n');
                         searcher.keyWord(args[i + 1]);
                         i += 2;
                         break;
                     }
                     case "7": {
-                        App.log.append("Request: show messages with regular expression" + '\n');
-                        App.log.append("regular expression: \" " + args[i + 1] + " \"" + '\n');
                         searcher.regularExpression(args[i + 1]);
                         i += 2;
                         break;
