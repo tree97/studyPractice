@@ -1,0 +1,1 @@
+select * from messages where user_id = 1 and date like '%09.05.2016%';

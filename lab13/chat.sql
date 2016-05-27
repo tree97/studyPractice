@@ -30,7 +30,7 @@ CREATE TABLE `messages` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,'hello world','20.05.2016 23:30',1),(2,'hello, Vadim','20.05.2016 23:34',2),(3,'Yes, I cracked chat','20.05.2016 23:34',3),(4,'Create Java filters, please','20.05.2016 23:36',4),(5,'No, thats too difficult!!!','20.05.2016 23:34',1),(6,'Your chat is insecure, everybody can read our messages!!!','20.05.2016 23:39',5),(7,'If you use Windows 10, do not worry about privacy.','20.05.2016 23:45',1),(8,'You are so stupid developer even filters are difficult for you','20.05.2016 23:48',7),(9,'Goodbye I am tired from trolling','20.05.2016 23:49',1),(10,'So bad design of chat.','20.05.2016 23:50',9);
+INSERT INTO `messages` VALUES (1,'hello world','20.05.2016 23:30',1),(2,'hello, Vadim','20.05.2016 23:34',2),(3,'Yes, I cracked chat','20.05.2016 23:34',3),(4,'Create Java filters, please','20.05.2016 23:36',4),(5,'No, thats too difficult!!!','20.05.2016 23:34',1),(6,'Your chat is insecure, everybody can read our messages!!!','20.05.2016 23:39',5),(7,'If you use Windows 10, do not worry about privacy.','20.05.2016 23:45',1),(8,'You are so stupid developer even filters are difficult for you','20.05.2016 23:48',7),(9,'Goodbye I am tired from trolling','20.05.2016 23:49',1),(10,'So bad design of chat.','20.05.2016 23:50',9),(11,'Hello everybody, welcome to my chat','09.05.2016 23:50',1);
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-21  0:05:58
+-- Dump completed on 2016-05-27 18:33:54
