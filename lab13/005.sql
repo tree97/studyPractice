@@ -1,0 +1,1 @@
+select * from users where ( select count(user_id) as message_count from messages where user_id = users.id ) > 3 ;
